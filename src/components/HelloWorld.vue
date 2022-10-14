@@ -4,7 +4,7 @@
       <v-text-field
         outline
         label=" E-Mail"
-        :error-messages="errors"
+        :error-messages="emailErrors"
         type="text"
         v-model="$v.email.$model"
       ></v-text-field>
@@ -13,43 +13,57 @@
         hide-details
         label="Password"
         type="password"
-        v-model="password"
+        v-model="$v.password.$model"
+        :error-messages="passwordErrors"
       ></v-text-field>
     </v-form>
-    <v-btn color="primary" @click="login"> Login </v-btn>
+    <v-btn
+      color="primary"
+      @click="login"
+    >
+      Login
+    </v-btn>
   </v-container>
 </template>
 
 <script>
 // eslint-disable-next-line no-unused-vars
 import { validationMixin } from 'vuelidate';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { email, required, minLength } from 'vuelidate/lib/validators';
 export default {
   name: 'HelloWorld',
 
   data: () => ({
     email: '',
     password: '',
-    errors:[]
+    emailErrors: [],
+    passwordErrors: [],
   }),
 
   validations: {
-    email: {
+    password: {
       required,
       minLength: minLength(6),
+    },
+    email: {
+      required,
+      email,
     },
   },
   methods: {
     login() {
-      this.errors = []
-      !this.$v.email.minLength &&
-      this.errors.push('Name must be at most 6 characters long');
-      !this.$v.email.required && this.errors.push('Email is required.');
-      if( this.errors.length === 0 ){
-        this.$router.push({name: 'products'})
+      this.passwordErrors = [];
+      this.emailErrors = [];
+      !this.$v.password.minLength &&
+        this.passwordErrors.push('Password must be at most 6 characters long');
+      !this.$v.password.required &&
+        this.passwordErrors.push('password is required.');
+      !this.$v.email.required && this.emailErrors.push('email is required.');
+      !this.$v.email.email && this.emailErrors.push('email is incorrect.');
+      if (this.emailErrors.length === 0 && this.passwordErrors.length === 0) {
+        this.$router.push({ name: 'products' });
       }
-
-    }
+    },
   },
 };
 </script>

@@ -22,7 +22,6 @@ export default {
     fetch(' https://dummyjson.com/products')
       .then((response) => response.json())
       .then(({products}) => {
-
           this.products = products
       });
   },
@@ -33,7 +32,7 @@ export default {
   .products-view span {
     display: block;
   }
-    .products-view div {
+  .products-view div {
       margin:  10px auto ;
       width: 300px;
       border: 1px solid black;

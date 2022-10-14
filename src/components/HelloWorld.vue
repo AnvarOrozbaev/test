@@ -10,11 +10,10 @@
       ></v-text-field>
       <v-text-field
         outline
-        hide-details
+        :error-messages="passwordErrors"
         label="Password"
         type="password"
         v-model="$v.password.$model"
-        :error-messages="passwordErrors"
       ></v-text-field>
     </v-form>
     <v-btn
@@ -60,6 +59,7 @@ export default {
         this.passwordErrors.push('password is required.');
       !this.$v.email.required && this.emailErrors.push('email is required.');
       !this.$v.email.email && this.emailErrors.push('email is incorrect.');
+      console.log(this.passwordErrors, this.emailErrors);
       if (this.emailErrors.length === 0 && this.passwordErrors.length === 0) {
         this.$router.push({ name: 'products' });
       }
